@@ -1,0 +1,9 @@
+[build]
+  command = "node index.js"  # Your build command here, if applicable
+  publish = "public"  # Directory where your static files are located
+
+[functions]
+  directory = ""  # Directory for serverless functions
+
+[context.production.environment]
+  NODE_VERSION = "14"  # Specify the Node.js version if needed

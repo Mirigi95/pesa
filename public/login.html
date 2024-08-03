@@ -2,74 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Arbitrage App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .google-button {
-            background-color: #db4437;
-            margin-top: 10px;
-        }
-        .google-button:hover {
-            background-color: #c23321;
-        }
-    </style>
+        /* styles.css */
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   
- 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background: #0056b3;
+    color: #fff;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    background: #003d80;
+    border-radius: 4px;
+}
+
+main {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h2 {
+    color: #0056b3;
+    border-bottom: 3px solid #0056b3;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
+}
+
+section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+section h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+section p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+footer {
+    background: #0056b3;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form onsubmit="event.preventDefault();">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-        <br>
-        <button type="submit">Login</button>
-        <button type="button" class="google-button" onclick="">Login with Google</button>
-    </form>
+    <header>
+        <h1>Arbitrage App</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>About Arbitrage App</h2>
+            <p>Welcome to Arbitrage App, where we empower investors with cutting-edge tools to capitalize on market inefficiencies. Our platform leverages advanced algorithms and real-time data to identify arbitrage opportunities across multiple cryptocurrency exchanges.</p>
+        </section>
+        <section>
+            <h3>Our Mission</h3>
+            <p>Our mission is to provide transparent, efficient, and reliable trading solutions that maximize profitability and minimize risk. We are committed to innovation and continuous improvement to meet the evolving needs of our investors.</p>
+        </section>
+        <section>
+            <h3>Why Choose Us?</h3>
+            <ul>
+                <li><strong>Comprehensive Market Analysis:</strong> Access detailed analysis and real-time data across numerous exchanges.</li>
+                <li><strong>Advanced Algorithms:</strong> Benefit from sophisticated algorithms designed to detect and exploit market inefficiencies.</li>
+                <li><strong>User-Friendly Interface:</strong> Enjoy an intuitive interface that simplifies the trading process and enhances user experience.</li>
+                <li><strong>Dedicated Support:</strong> Receive dedicated support from our experienced team to assist with any inquiries or issues.</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Contact Us</h3>
+            <p>For more information or to schedule a demo, please <a href="/contact">contact us</a>. We look forward to partnering with you to achieve your trading goals.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Arbitrage App. All rights reserved.</p>
+    </footer>
 </body>
 </html>

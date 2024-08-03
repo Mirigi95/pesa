@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Arbitrage Opportunities</title>
+    <title>About Our Arbitrage App - Real-Time Trading Opportunities</title>
+    <meta name="description" content="Learn about our Arbitrage App, designed to help you identify real-time trading opportunities across multiple exchanges. Discover features, benefits, and how to get in touch with us for more information.">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
@@ -12,6 +14,36 @@
             margin: 0;
             padding: 20px;
         }
+        header {
+    background: #0056b3;
+    color: #fff;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    background: #003d80;
+    border-radius: 4px;
+}
         h1 {
             text-align: center;
             color: #007bff;
@@ -81,7 +113,14 @@
 </head>
 <body>
 
-    <h1>Arbitrage Opportunities</h1>
+    <header>
+        <h1>Arbitrage App</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header> <br>
     <div class="loading-container" id="loading-container">
         <div class="spinner"></div>
         <p>Loading data...</p>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrage Opportunities</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Arbitrage Opportunities</h1>
+        <table id="arbitrage-table">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Exchange 1</th>
+                    <th>Price 1</th>
+                    <th>Exchange 2</th>
+                    <th>Price 2</th>
+                    <th>Percentage Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchArbitrageOpportunities() {
+            try {
+                const response = await fetch('/server/index');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const tableBody = document.querySelector('#arbitrage-table tbody');
+                tableBody.innerHTML = ''; // Clear previous data
+
+                data.forEach(opportunity => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${opportunity.symbol}</td>
+                        <td>${opportunity.exchange1}</td>
+                        <td>${opportunity.price1}</td>
+                        <td>${opportunity.exchange2}</td>
+                        <td>${opportunity.price2}</td>
+                        <td>${opportunity.percentageDifference}%</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching arbitrage opportunities:', error);
+            }
+        }
+
+        // Fetch and display data on page load
+        window.onload = fetchArbitrageOpportunities;
+    </script>
+</body>
+</html>

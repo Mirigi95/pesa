@@ -1,5 +1,7 @@
 [build]
   functions = "server"
+  command = "npm start"  # Or "yarn build"
+  publish = "public"
 
 [build.environment]
   NODE_VERSION = "18"  # Specify your Node.js version

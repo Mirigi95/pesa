@@ -153,6 +153,12 @@ nav a:hover {
                                 </div>
                             </div>`;
                         container.append(card);
+                        if (opportunity.percentageDifference < 0.5) {
+                            container.find('.opportunity-card:last').css({'background': 'red', 'color': 'white'});
+                        }
+                        if (opportunity.percentageDifference > 0.5) {
+                            container.find('.opportunity-card:last').css({'background': 'yellow', 'color': 'white'});
+                        }
                         if (opportunity.percentageDifference > 1) {
                             container.find('.opportunity-card:last').css({'background': 'green', 'color': 'white'});
                         }

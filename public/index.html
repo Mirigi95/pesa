@@ -67,8 +67,8 @@ nav a:hover {
         }
         .card-header {
             font-size: 1.5em;
-            color: #007bff;
-            margin-bottom: 10px;
+            color: #007bff; font-weight: bold;
+            margin-bottom: 10px; background-color: azure;
         }
         .card-content {
             display: flex;
@@ -157,7 +157,7 @@ nav a:hover {
                             container.find('.opportunity-card:last').css({'background': 'red', 'color': 'white'});
                         }
                         if (opportunity.percentageDifference > 0.5) {
-                            container.find('.opportunity-card:last').css({'background': 'yellow', 'color': 'white'});
+                            container.find('.opportunity-card:last').css({'background': 'yellow', 'color': 'black'});
                         }
                         if (opportunity.percentageDifference > 1) {
                             container.find('.opportunity-card:last').css({'background': 'green', 'color': 'white'});

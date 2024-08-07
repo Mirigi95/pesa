@@ -1,6 +1,9 @@
 const express = require('express');
 const ccxt = require('ccxt');
 const path = require('path');
+const admin = require('./functions/firebaseAdmin.js');
+
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,16 +11,56 @@ const port = process.env.PORT || 3000;
 // Serve static files (like HTML, CSS)
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Middleware to verify Firebase ID tokens
+async function authenticateToken(req, res, next) {
+    const token = req.headers.authorization?.split('Bearer ')[1];
+    console.log(token);
+    if (token) {
+        try {
+            const decodedToken = await admin.auth().verifyIdToken(token);
+            req.user = decodedToken;
+            next();
+        } catch (error) {
+            res.status(401).send('Unauthorized');
+        }
+    } else {
+        res.status(401).send('Unauthorized');
+    }
+}
+
+
+app.get('/login', (req, res) => {
+   
+     res.sendFile(path.join(__dirname, 'public', 'login.html'));
+     
+  });
 // Serve index page
 app.get('/', (req, res) => {
+    const uid = req.query.uid; 
+    if (!uid) {
+        return res.status(400).send('UID is required');
+    }
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
 app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
+
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
+
+app.get('/profile', (req, res) => {
+    const uid = req.query.uid; // Assuming UID is passed as a query parameter
+
+    if (!uid) {return res.status(400).send('UID is required');   }
+    
+    
+    res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
+
 
 
 // Initialize exchanges with timeout options

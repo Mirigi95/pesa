@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>About Our Arbitrage App - Real-Time Trading Opportunities</title>
     <meta name="description" content="Learn about our Arbitrage App, designed to help you identify real-time trading opportunities across multiple exchanges. Discover features, benefits, and how to get in touch with us for more information.">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
+    <style async>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -15,35 +15,31 @@
             padding: 20px;
         }
         header {
-    background: #0056b3;
-    color: #fff;
-    padding: 1.5rem 0;
-    text-align: center;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5rem 1.5rem;
-    font-size: 1.1rem;
-}
-
-nav a:hover {
-    background: #003d80;
-    border-radius: 4px;
-}
+            background: #0056b3;
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        nav a:hover {
+            background: #003d80;
+            border-radius: 4px;
+        }
         h1 {
             text-align: center;
             color: #007bff;
@@ -67,8 +63,14 @@ nav a:hover {
         }
         .card-header {
             font-size: 1.5em;
-            color: #007bff; font-weight: bold;
-            margin-bottom: 10px; background-color: azure;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background-color: azure;
+        }
+        .arbit-investment {
+            box-shadow: 0 0 .4em goldenrod;
+            background: rgb(78, 107, 202);
         }
         .card-content {
             display: flex;
@@ -121,59 +123,104 @@ nav a:hover {
             <a href="/contact">Contact</a>
         </nav>
     </header> <br>
+
     <div class="loading-container" id="loading-container">
         <div class="spinner"></div>
         <p>Loading data...</p>
     </div>
     <div class="container" id="arbitrage-container"></div>
-    <script>
-        $(document).ready(function () {
-            function fetchArbitrageOpportunities() {
-                $('#loading-container').show();
-                $('#arbitrage-container').hide();
-                $.getJSON('/arbitrage', function (data) {
-                    const container = $('#arbitrage-container');
-                    container.empty();
-                    data.forEach((opportunity) => {
-                        const card = `
-                            <div class="opportunity-card">
-                                <div class="card-header">${opportunity.symbol}</div>
-                                <div class="card-content">
-                                    <div class="arbit-exchange">
-                                        <h3>${opportunity.exchange1}</h3>
-                                        <h2>${opportunity.price1}</h2>
-                                    </div>
-                                    <div class="arbit-exchange">
-                                        <h3>${opportunity.exchange2}</h3>
-                                        <h2>${opportunity.price2}</h2>
-                                    </div>
-                                    <div class="arbit-difference">
-                                        <h2>${opportunity.percentageDifference}%</h2>
-                                    </div>
-                                </div>
-                            </div>`;
-                        container.append(card);
-                        if (opportunity.percentageDifference < 0.5) {
-                            container.find('.opportunity-card:last').css({'background': 'red', 'color': 'white'});
-                        }
-                        if (opportunity.percentageDifference > 0.5) {
-                            container.find('.opportunity-card:last').css({'background': 'yellow', 'color': 'black'});
-                        }
-                        if (opportunity.percentageDifference > 1) {
-                            container.find('.opportunity-card:last').css({'background': 'green', 'color': 'white'});
-                        }
-                    });
-                    $('#loading-container').hide();
-                    $('#arbitrage-container').show();
-                }).fail(function() {
-                    $('#loading-container').hide();
-                    $('#arbitrage-container').show().html('<p>Error loading data. Please try again later.</p>');
-                });
-            }
 
-            fetchArbitrageOpportunities();
-            setInterval(fetchArbitrageOpportunities, 240000);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCGBaJh_XfmlTuBA0xQJJ4c-R5S4tZ6ib0",
+            authDomain: "arbitrage-4a92b.firebaseapp.com",
+            databaseURL: "https://arbitrage-4a92b-default-rtdb.firebaseio.com",
+            projectId: "arbitrage-4a92b",
+            storageBucket: "arbitrage-4a92b.appspot.com",
+            messagingSenderId: "864484742329",
+            appId: "1:864484742329:web:64e6ce8073f2ba5ba6f768",
+            measurementId: "G-2SYWWVM5P4"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                const idToken = await user.getIdToken();
+                fetchArbitrageOpportunities(idToken);
+            } else {
+                // No user is signed in
+                window.location.href = '/login';
+            }
         });
+
+        // Fetch arbitrage opportunities
+        function fetchArbitrageOpportunities(idToken) {
+            $('#loading-container').show();
+            $('#arbitrage-container').hide();
+            fetch('/arbitrage', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${idToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const container = $('#arbitrage-container');
+                container.empty();
+                data.forEach((opportunity) => {
+                    const percentageDifference = parseFloat(opportunity.percentageDifference);
+                    const investment = (5 / (percentageDifference / 100)).toFixed(2); // Calculate investment to make $5 profit
+
+                    const card = `
+                        <div class="opportunity-card">
+                            <div class="card-header">${opportunity.symbol}</div>
+                            <div class="card-content">
+                                <div class="arbit-exchange">
+                                    <h3>${opportunity.exchange1}</h3>
+                                    <h2>${opportunity.price1}</h2>
+                                </div>
+                                <div class="arbit-exchange">
+                                    <h3>${opportunity.exchange2}</h3>
+                                    <h2>${opportunity.price2}</h2>
+                                </div>
+                                <div class="arbit-difference">
+                                    <h2>${opportunity.percentageDifference}%</h2>
+                                </div>
+                                <div class="arbit-investment">
+                                    <h2>Invest <b>$${investment}</b> to get <u>$5</u> profit</h2>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    container.append(card);
+
+                    // Set card colors based on percentageDifference
+                    const cardElement = container.find('.opportunity-card:last');
+                    if (percentageDifference < 0.5) {
+                        cardElement.css({'background': 'red', 'color': 'white'});
+                    } else if (percentageDifference > 0.5 && percentageDifference <= 1) {
+                        cardElement.css({'background': 'yellow', 'color': 'black'});
+                    } else if (percentageDifference > 1) {
+                        cardElement.css({'background': 'green', 'color': 'white'});
+                    }
+                });
+                $('#loading-container').hide();
+                $('#arbitrage-container').show();
+            })
+            .catch(() => {
+                $('#loading-container').hide();
+                $('#arbitrage-container').show().html('<p>Error loading data. Please try again later.</p>');
+            });
+        }
     </script>
 </body>
 </html>

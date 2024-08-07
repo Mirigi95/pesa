@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCGBaJh_XfmlTuBA0xQJJ4c-R5S4tZ6ib0",
+            authDomain: "arbitrage-4a92b.firebaseapp.com",
+            databaseURL: "https://arbitrage-4a92b-default-rtdb.firebaseio.com",
+            projectId: "arbitrage-4a92b",
+            storageBucket: "arbitrage-4a92b.appspot.com",
+            messagingSenderId: "864484742329",
+            appId: "1:864484742329:web:64e6ce8073f2ba5ba6f768",
+            measurementId: "G-2SYWWVM5P4"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Function to fetch user profile information
+        async function fetchUserProfile(userId) {
+            // Replace with your actual API call to fetch user profile
+            const response = await fetch(`/user/profile?userId=${userId}`);
+            const userProfile = await response.json();
+            document.getElementById('user-name').textContent = userProfile.name;
+            document.getElementById('user-email').textContent = userProfile.email;
+            document.getElementById('sign-out-button').style.display = 'inline-block';
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                const idToken = await user.getIdToken();
+                fetchArbitrageOpportunities(idToken);
+                fetchUserProfile(user.uid); // Fetch and display user profile info
+            } else {
+                // No user is signed in
+                window.location.href = '/login';
+            }
+        });
+
+        // Sign out function
+        async function signOut() {
+            try {
+                await auth.signOut();
+                window.location.href = '/login'; // Redirect to login page after sign-out
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        }
+
+        // Add event listener for sign-out button
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('sign-out-button').addEventListener('click', signOut);
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .profile-info p {
+            margin: 5px 0;
+        }
+        #sign-out-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+        }
+        #sign-out-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div class="profile-info">
+        <p id="user-name">User</p>
+        <p id="user-email">Email not available</p>
+    </div>
+    <button id="sign-out-button">Sign Out</button>
+</body>
+</html>

@@ -1,9 +1,6 @@
 const express = require('express');
 const ccxt = require('ccxt');
 const path = require('path');
-//const admin = require('./functions/firebaseAdmin.js');
-
-
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,48 +8,38 @@ const port = process.env.PORT || 3000;
 // Serve static files (like HTML, CSS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
-
-
 app.get('/login', (req, res) => {
-   
-     res.sendFile(path.join(__dirname, 'public', 'login.html'));
-     
-  });
-// Serve index page
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 app.get('/', (req, res) => {
-   
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'about.html'));
 });
 
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
 
-app.get('/profile', (req, res) => { 
-    
+app.get('/profile', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
 
-
-
 // Initialize exchanges with timeout options
 const exchanges = [
-    new ccxt.bybit({ timeout: 30000 }),    // Bybit with 30 seconds timeout
-    new ccxt.kraken({ timeout: 30000 }),   // Kraken with 30 seconds timeout
-    new ccxt.binance({ timeout: 30000 }),  // Binance with 30 seconds timeout
-    new ccxt.okx({ timeout: 30000 }),      // OKX with 30 seconds timeout
-    new ccxt.huobi({ timeout: 30000 }),    // Huobi with 30 seconds timeout
+    new ccxt.bybit({ timeout: 30000 }),
+    new ccxt.kraken({ timeout: 30000 }),
+    new ccxt.binance({ timeout: 30000 }),
+    new ccxt.okx({ timeout: 30000 }),
+    new ccxt.huobi({ timeout: 30000 }),
     new ccxt.mexc({ timeout: 30000 }),
     new ccxt.bingx({ timeout: 30000 }),
     new ccxt.bitfinex({ timeout: 30000 }),
     new ccxt.bitget({ timeout: 30000 }),
-    new ccxt.cryptocom({ timeout: 30000 })  // Crypto.com with 30 seconds timeout
+    new ccxt.cryptocom({ timeout: 30000 })
 ];
 
 async function fetchSymbols() {
@@ -71,7 +58,7 @@ async function fetchSymbols() {
         return results.reduce((acc, curr) => ({ ...acc, ...curr }), {});
     } catch (e) {
         console.error("Error in fetchSymbols:", e.message);
-        throw e; // Rethrow error to be caught in the route handler
+        throw e;
     }
 }
 
@@ -84,7 +71,7 @@ function findCommonSymbols(symbolsPerExchange) {
         return commonSymbols;
     } catch (e) {
         console.error("Error in findCommonSymbols:", e.message);
-        throw e; // Rethrow error to be caught in the route handler
+        throw e;
     }
 }
 
@@ -107,7 +94,7 @@ async function fetchPricesForCommonSymbols(commonSymbols) {
         return results.reduce((acc, curr) => ({ ...acc, ...curr }), {});
     } catch (e) {
         console.error("Error in fetchPricesForCommonSymbols:", e.message);
-        throw e; // Rethrow error to be caught in the route handler
+        throw e;
     }
 }
 
@@ -138,7 +125,7 @@ function checkArbitrageOpportunities(commonSymbolPrices) {
         return arbitrageOpportunities;
     } catch (e) {
         console.error("Error in checkArbitrageOpportunities:", e.message);
-        throw e; // Rethrow error to be caught in the route handler
+        throw e;
     }
 }
 
@@ -164,4 +151,4 @@ app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
 
-module.exports = app; // Export the app for Vercel
+module.exports = app;

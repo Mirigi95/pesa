@@ -6,10 +6,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Serve static files (like HTML, CSS)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname,  'public')));
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname,  'public', 'login.html'));
 });
 
 app.get('/', (req, res) => {
@@ -17,15 +17,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'about.html'));
+    res.sendFile(path.join(__dirname,  'public', 'about.html'));
 });
 
 app.get('/contact', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'contact.html'));
+    res.sendFile(path.join(__dirname,  'public', 'contact.html'));
 });
 
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+    res.sendFile(path.join(__dirname,  'public', 'profile.html'));
 });
 
 // Initialize exchanges with timeout options
@@ -140,15 +140,6 @@ app.get('/arbitrage', async (_req, res) => {
         console.error("Error in /arbitrage route:", e.message);
         res.status(500).send('Internal Server Error');
     }
-});
-
-app.use((err, req, res, next) => {
-    console.error("Unhandled Error:", err.message);
-    res.status(500).send('Internal Server Error');
-});
-
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
 });
 
 module.exports = app;

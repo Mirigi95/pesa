@@ -6,7 +6,7 @@
     <meta name="description" content="Learn about our Arbitrage App, designed to help you identify real-time trading opportunities across multiple exchanges. Discover features, benefits, and how to get in touch with us for more information.">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style async>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -87,7 +87,7 @@
             margin: 0;
         }
         .loading-container {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -122,7 +122,7 @@
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
         </nav>
-    </header> <br>
+    </header>
 
     <div class="loading-container" id="loading-container">
         <div class="spinner"></div>
@@ -131,60 +131,66 @@
     <div class="container" id="arbitrage-container"></div>
 
     <script type="module">
-      
-        // Fetch arbitrage opportunities
-        function fetchArbitrageOpportunities() {
-            $('#loading-container').show();
-            $('#arbitrage-container').hide();
-            fetch('/arbitrage')
-            .then(response => response.json())
-            .then(data => {
-                const container = $('#arbitrage-container');
-                container.empty();
-                data.forEach((opportunity) => {
-                    const percentageDifference = parseFloat(opportunity.percentageDifference);
-                    const investment = (5 / (percentageDifference / 100)).toFixed(2); // Calculate investment to make $5 profit
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchArbitrageOpportunities();
+        });
 
-                    const card = `
-                        <div class="opportunity-card">
-                            <div class="card-header">${opportunity.symbol}</div>
-                            <div class="card-content">
-                                <div class="arbit-exchange">
-                                    <h3>${opportunity.exchange1}</h3>
-                                    <h2>${opportunity.price1}</h2>
-                                </div>
-                                <div class="arbit-exchange">
-                                    <h3>${opportunity.exchange2}</h3>
-                                    <h2>${opportunity.price2}</h2>
-                                </div>
-                                <div class="arbit-difference">
-                                    <h2>${opportunity.percentageDifference}%</h2>
-                                </div>
-                                <div class="arbit-investment">
-                                    <h2>Invest <b>$${investment}</b> to get <u>$5</u> profit</h2>
-                                </div>
+        async function fetchArbitrageOpportunities() {
+            document.getElementById('loading-container').style.display = 'flex';
+            document.getElementById('arbitrage-container').style.display = 'none';
+            try {
+                const response = await fetch('/arbitrage');
+                const data = await response.json();
+                const container = document.getElementById('arbitrage-container');
+                container.innerHTML = ''; // Clear previous content
+                data.forEach(opportunity => {
+                    const percentageDifference = parseFloat(opportunity.percentageDifference);
+                    const investment = (5 / (percentageDifference / 100)).toFixed(2);
+
+                    const card = document.createElement('div');
+                    card.className = 'opportunity-card';
+
+                    card.innerHTML = `
+                        <div class="card-header">${opportunity.symbol}</div>
+                        <div class="card-content">
+                            <div class="arbit-exchange">
+                                <h3>${opportunity.exchange1}</h3>
+                                <h2>${opportunity.price1}</h2>
+                            </div>
+                            <div class="arbit-exchange">
+                                <h3>${opportunity.exchange2}</h3>
+                                <h2>${opportunity.price2}</h2>
+                            </div>
+                            <div class="arbit-difference">
+                                <h2>${opportunity.percentageDifference}%</h2>
+                            </div>
+                            <div class="arbit-investment">
+                                <h2>Invest <b>$${investment}</b> to get <u>$5</u> profit</h2>
                             </div>
                         </div>`;
 
-                    container.append(card);
-
-                    // Set card colors based on percentageDifference
-                    const cardElement = container.find('.opportunity-card:last');
                     if (percentageDifference < 0.5) {
-                        cardElement.css({'background': 'red', 'color': 'white'});
+                        card.style.backgroundColor = 'red';
+                        card.style.color = 'white';
                     } else if (percentageDifference > 0.5 && percentageDifference <= 1) {
-                        cardElement.css({'background': 'yellow', 'color': 'black'});
+                        card.style.backgroundColor = 'yellow';
+                        card.style.color = 'black';
                     } else if (percentageDifference > 1) {
-                        cardElement.css({'background': 'green', 'color': 'white'});
+                        card.style.backgroundColor = 'green';
+                        card.style.color = 'white';
                     }
+
+                    container.appendChild(card);
                 });
-                $('#loading-container').hide();
-                $('#arbitrage-container').show();
-            })
-            .catch(() => {
-                $('#loading-container').hide();
-                $('#arbitrage-container').show().html('<p>Error loading data. Please try again later.</p>');
-            });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                const errorMessage = document.createElement('p');
+                errorMessage.textContent = 'Error loading data. Please try again later.';
+                document.getElementById('arbitrage-container').appendChild(errorMessage);
+            } finally {
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('arbitrage-container').style.display = 'block';
+            }
         }
     </script>
 </body>

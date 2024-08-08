@@ -46,27 +46,24 @@
             margin-bottom: 20px;
         }
         .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Distributes items evenly with space between them */
-    align-items: center; /* Aligns items at the start of the container's cross axis */
-    gap: 10px; /* Space between cards (Note: `gap` property works in Grid and Flexbox) */
-    padding: 0 10px;
-}
-
-.opportunity-card {
-    max-width: 300px; /* Example value, adjust as needed */
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 15px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.opportunity-card:hover {
-    transform: scale(1.03);
-}
-
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: center; /* Center the items */
+            gap: 20px; /* Space between items both horizontally and vertically */
+            padding: 0 10px;
+        }
+        .opportunity-card {
+            flex: 1 1 300px; /* Grow, shrink, basis (flex-basis: 300px) */
+            max-width: 300px; /* Ensure cards do not exceed 300px width */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .opportunity-card:hover {
+            transform: scale(1.03);
+        }
         .card-header {
             font-size: 1.5em;
             color: #007bff;

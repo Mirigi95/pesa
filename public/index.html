@@ -48,12 +48,12 @@
         .container {
             display: flex;
             flex-wrap: wrap; /* Allow items to wrap */
-            justify-content: center; /* Center the items */
+            justify-content: space-around; /* Distribute space evenly around elements */
             gap: 20px; /* Space between items both horizontally and vertically */
             padding: 0 10px;
         }
         .opportunity-card {
-            flex: 1 1 300px; /* Grow, shrink, basis (flex-basis: 300px) */
+            flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
             max-width: 300px; /* Ensure cards do not exceed 300px width */
             background-color: #fff;
             border-radius: 8px;
@@ -74,6 +74,7 @@
         .arbit-investment {
             box-shadow: 0 0 .4em goldenrod;
             background: rgb(78, 107, 202);
+            padding: 10px; /* Add padding for better text positioning */
         }
         .card-content {
             display: flex;
@@ -82,12 +83,6 @@
         }
         .card-content div {
             margin: 5px 0;
-        }
-        .card-content div h3 {
-            margin: 0;
-        }
-        .card-content div h2 {
-            margin: 0;
         }
         .loading-container {
             display: none;
@@ -142,7 +137,7 @@
             document.getElementById('loading-container').style.display = 'flex';
             document.getElementById('arbitrage-container').style.display = 'none';
             try {
-                const response = await fetch('/arbitrage');
+                const response = await fetch('/arbitrage'); // Ensure this endpoint is correct
                 const data = await response.json();
                 const container = document.getElementById('arbitrage-container');
                 container.innerHTML = ''; // Clear previous content
@@ -172,6 +167,7 @@
                             </div>
                         </div>`;
 
+                    // Set background color based on the percentage difference
                     if (percentageDifference < 0.5) {
                         card.style.backgroundColor = 'red';
                         card.style.color = 'white';
@@ -192,7 +188,7 @@
                 document.getElementById('arbitrage-container').appendChild(errorMessage);
             } finally {
                 document.getElementById('loading-container').style.display = 'none';
-                document.getElementById('arbitrage-container').style.display = 'block';
+                document.getElementById('arbitrage-container').style.display = 'flex'; // Set this to flex to ensure the container is displayed correctly
             }
         }
     </script>

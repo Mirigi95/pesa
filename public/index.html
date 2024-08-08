@@ -131,6 +131,7 @@
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
             fetchArbitrageOpportunities();
+            setInterval(fetchArbitrageOpportunities, 300000);
         });
 
         async function fetchArbitrageOpportunities() {

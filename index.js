@@ -1,7 +1,6 @@
 const express = require('express');
 const ccxt = require('ccxt');
 const path = require('path');
-require('dotenv').config();
 
 
 const app = express();

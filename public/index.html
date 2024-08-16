@@ -49,13 +49,13 @@
             display: flex;
             flex-wrap: wrap; /* Allow items to wrap */
             justify-content: space-around; /* Distribute space evenly around elements */
-            gap: 20px; /* Space between items both horizontally and vertically */
-            padding: 0 10px;
+            gap: 10px; /* Space between items both horizontally and vertically */
+            padding: 15px 10px;
         }
         .opportunity-card {
             flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
             max-width: 300px; /* Ensure cards do not exceed 300px width */
-            background-color: #fff;
+            background-color: #eef5eca1;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             padding: 15px;
@@ -73,16 +73,21 @@
         }
         .arbit-investment {
             box-shadow: 0 0 .4em goldenrod;
-            background: rgb(78, 107, 202);
+            background: rgb(105, 107, 116);
             padding: 10px; /* Add padding for better text positioning */
         }
         .card-content {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
             font-size: 16px;
         }
+        .card-content .arbit-exchange{
+            width: 45%;
+        }
         .card-content div {
-            margin: 5px 0;
+            margin: 1px 0;
         }
         .loading-container {
             display: none;
@@ -109,6 +114,11 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @media (max-width: 500px) {
+           .opportunity-card{
+            width: 80%; margin: 20px;
+           }
+        }
     </style>
 </head>
 <body>
@@ -131,7 +141,7 @@
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
             fetchArbitrageOpportunities();
-            setInterval(fetchArbitrageOpportunities, 300000);
+            setInterval(fetchArbitrageOpportunities, 240000);
         });
 
         async function fetchArbitrageOpportunities() {
@@ -161,6 +171,7 @@
                                 <h2>${opportunity.price2}</h2>
                             </div>
                             <div class="arbit-difference">
+                                <h1>% Profit</h1>
                                 <h2>${opportunity.percentageDifference}%</h2>
                             </div>
                             <div class="arbit-investment">
@@ -170,13 +181,13 @@
 
                     // Set background color based on the percentage difference
                     if (percentageDifference < 0.5) {
-                        card.style.backgroundColor = 'red';
+                        card.style.backgroundColor = '#cf241e8c';
                         card.style.color = 'white';
                     } else if (percentageDifference > 0.5 && percentageDifference <= 1) {
-                        card.style.backgroundColor = 'yellow';
+                        card.style.backgroundColor = '#d1a4108c';
                         card.style.color = 'black';
                     } else if (percentageDifference > 1) {
-                        card.style.backgroundColor = 'green';
+                        card.style.backgroundColor = '#39c416a1';
                         card.style.color = 'white';
                     }
 

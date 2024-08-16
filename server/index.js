@@ -1,6 +1,7 @@
 // netlify-functions/arbitrage.js
 const ccxt = require('ccxt');
 const path = require('path');
+require('dotenv').config();
 
 exports.handler = async function(event, context) {
     try {

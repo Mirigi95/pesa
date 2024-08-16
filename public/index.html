@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>About Our Arbitrage App - Real-Time Trading Opportunities</title>
-    <meta name="description" content="Learn about our Arbitrage App, designed to help you identify real-time trading opportunities across multiple exchanges. Discover features, benefits, and how to get in touch with us for more information.">
-<!-- Google Tag Manager -->
+    <script>
+        // Function to get a cookie value by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentReference = getCookie('payment_reference');
+
+            if (paymentReference) {
+                // User is authenticated based on payment reference
+                document.getElementById('status').innerHTML = `Thanks for <a href="./pay">Support</a> !`;
+                fetchArbitrageOpportunities(true);
+               
+            } else {
+                // Not authenticated, show limited arbitrage opportunities
+                document.getElementById('status').textContent = ' <a href="./pay">Support</a> us to View baove 1%.';
+                fetchArbitrageOpportunities(false);
+            }
+        });
+    </script>
+    <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-TJKZPCF7');</script>
     <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <title>About Our Arbitrage App - Real-Time Trading Opportunities</title>
+    <meta name="description" content="Learn about our Arbitrage App, designed to help you identify real-time trading opportunities across multiple exchanges. Discover features, benefits, and how to get in touch with us for more information.">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
@@ -145,15 +169,11 @@
         <div class="spinner"></div>
         <p>Loading data...</p>
     </div>
+    <p id="status">Checking authentication...</p>
     <div class="container" id="arbitrage-container"></div>
 
     <script type="module">
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchArbitrageOpportunities();
-            setInterval(fetchArbitrageOpportunities, 240000);
-        });
-
-        async function fetchArbitrageOpportunities() {
+        async function fetchArbitrageOpportunities(showAll) {
             document.getElementById('loading-container').style.display = 'flex';
             document.getElementById('arbitrage-container').style.display = 'none';
             try {
@@ -161,7 +181,11 @@
                 const data = await response.json();
                 const container = document.getElementById('arbitrage-container');
                 container.innerHTML = ''; // Clear previous content
-                data.forEach(opportunity => {
+
+                // Filter opportunities based on authentication status
+                const filteredData = data.filter(opportunity => showAll || parseFloat(opportunity.percentageDifference) < 0.7);
+
+                filteredData.forEach(opportunity => {
                     const percentageDifference = parseFloat(opportunity.percentageDifference);
                     const investment = (5 / (percentageDifference / 100)).toFixed(2);
 
@@ -186,6 +210,7 @@
                             <div class="arbit-investment">
                                 <h2>Invest <b>$${investment}</b> to get <u>$5</u> profit</h2>
                             </div>
+                            <p id="status">Checking authentication...</p>
                         </div>`;
 
                     // Set background color based on the percentage difference
@@ -209,7 +234,7 @@
                 document.getElementById('arbitrage-container').appendChild(errorMessage);
             } finally {
                 document.getElementById('loading-container').style.display = 'none';
-                document.getElementById('arbitrage-container').style.display = 'flex'; // Set this to flex to ensure the container is displayed correctly
+                document.getElementById('arbitrage-container').style.display = 'flex'; // Ensure the container is displayed correctly
             }
         }
     </script>

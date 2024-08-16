@@ -1,8 +1,12 @@
 const express = require('express');
 const ccxt = require('ccxt');
 const path = require('path');
+require('dotenv').config();
+
 
 const app = express();
+app.use(express.json());
+
 const port = process.env.PORT || 3000;
 
 // Serve static files (like HTML, CSS)
@@ -16,9 +20,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname,  'public', 'about.html'));
+app.get('/pay', (req, res) => {
+    res.sendFile(path.join(__dirname,  'public', 'pay.html'));
 });
+
 
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname,  'public', 'contact.html'));

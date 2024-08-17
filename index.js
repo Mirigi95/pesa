@@ -23,13 +23,12 @@ app.get('/pay', (req, res) => {
     res.sendFile(path.join(__dirname,  'public', 'pay.html'));
 });
 
-
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname,  'public', 'contact.html'));
 });
 
-app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname,  'public', 'profile.html'));
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname,  'public', 'about.html'));
 });
 
 // Initialize exchanges with timeout options
